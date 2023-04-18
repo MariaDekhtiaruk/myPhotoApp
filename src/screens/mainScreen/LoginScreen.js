@@ -8,7 +8,7 @@ import {
   Keyboard,
 } from 'react-native';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authSignInUser } from '../../../redux/auth/authOperations';
 
 import { useTogglePasswordVisibility } from '../../../hooks/useTogglePasswordVisibility';
@@ -26,6 +26,8 @@ export default LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
+  //Pass isLoading status on a login screen to show loading progress during the app auth requests.
+  const { isLoading } = useSelector((state) => state.auth);
 
   const handleSubmit = () => {
     setIsShowKeyboard(false);
@@ -35,7 +37,7 @@ export default LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <Wrapper title="Login" hideAvatar>
+    <Wrapper title="Login" hideAvatar isLoading={isLoading}>
       <TextInput
         style={styles.input}
         value={state.email}

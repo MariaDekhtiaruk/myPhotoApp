@@ -1,15 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import DefaultScreen from '../nestedScreens/DefaultScreen';
 import CommentsScreen from '../nestedScreens/CommentsScreen';
-import Context from '../../../context';
 import LogoutSvg from '../../../Img/LogOutSvg';
+import { authSignOutUser } from '../../../redux/auth/authOperations';
 
 const NestedScreen = createStackNavigator();
 
 const PostsScreen = () => {
-  const context = useContext(Context);
+  //Add signOut Redux action
+  const dispatch = useDispatch;
 
   return (
     <NestedScreen.Navigator>
@@ -21,7 +23,7 @@ const PostsScreen = () => {
           headerRight: () => (
             <LogoutSvg
               style={styles.logoutSvg}
-              // onPress={() => context.setIsAuth(false)}
+              onPress={() => dispatch(authSignOutUser())}
             />
           ),
         }}
