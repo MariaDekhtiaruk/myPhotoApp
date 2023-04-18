@@ -1,12 +1,11 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  getAuth,
   updateProfile,
   onAuthStateChanged,
 } from 'firebase/auth';
 
-import app from '../../firebase/config';
+import auth from '../../firebase/config';
 import { authSlice } from './authReducer';
 
 export const authSignUpUser =
@@ -14,8 +13,6 @@ export const authSignUpUser =
   async (dispatch, getState) => {
     console.log('user=======', email, password);
     try {
-      const auth = getAuth(app);
-
       await createUserWithEmailAndPassword(auth, email, password);
 
       const user = auth.currentUser;
@@ -44,7 +41,7 @@ export const authSignInUser =
       console.log('email=', email, 'password=', password);
 
       const user = await signInWithEmailAndPassword(
-        getAuth(app),
+        auth,
         email,
         password
       );
@@ -55,11 +52,25 @@ export const authSignInUser =
     }
   };
 
-export const authSignOutUser = () => async (dispatch, getState) => {};
+export const authSignOutUser = () => async (dispatch, getState) => {
+  // Show loading
+  dispatch(authSlice.actions.setLoading(true));
+  //Make Firebase SignOut and clean up the user object in the redux state - this will affect the router isAuth to navigate to the login screen again.
+  await auth.signOut();
+  dispatch(
+    authSlice.actions.updateUserProfile({
+      login: null,
+      userId: null,
+    })
+  );
+  // Hide loading
+  dispatch(authSlice.actions.setLoading(false));
+};
 
 ////////
 export const authStateChanged = () => async (dispatch, getState) => {
-  const auth = getAuth(app);
+  // Show loading
+  dispatch(authSlice.actions.setLoading(true));
 
   await onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -71,10 +82,12 @@ export const authStateChanged = () => async (dispatch, getState) => {
       dispatch(
         authSlice.actions.updateUserProfile(userUpdateProfile)
       );
-
-      dispatch(
-        authSlice.actions.authStateChange({ stateChange: true })
-      );
+      //Remove stateChange completely. It is redundant since we have direct access to the user object in the Redux state to check the session.
+      // dispatch(
+      //   authSlice.actions.authStateChange({ stateChange: true })
+      // );
     }
+    // Hide loading
+    dispatch(authSlice.actions.setLoading(false));
   });
 };

@@ -3,11 +3,9 @@ import HomeScreen from '../src/screens/mainScreen/HomeScreen';
 import RegistrationScreen from '../src/screens/mainScreen/RegistrationScreen';
 import CreatePostsScreen from '../src/screens/mainScreen/CreatePostsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { useSelector } from 'react-redux';
 import MapScreen from '../src/screens/mainScreen/MapScreen';
-// import CommentsScreen from '../screens/CommentsScreen';
 
-// import ProfileScreen from '../screens/ProfileScreen';
 const MainStack = createStackNavigator();
 
 const useAuth = (isAuth) =>
@@ -28,20 +26,6 @@ const useAuth = (isAuth) =>
         }}
       />
       <MainStack.Screen name="MapScreen" component={MapScreen} />
-      {/* <MainStack.Screen
-        name="MapScreen"
-        component={MapScreen}
-        options={{
-          title: 'Choose location',
-        }}
-      />
-      <MainStack.Screen
-        name="CommentsScreen"
-        component={CommentsScreen}
-        options={{
-          title: 'Make comment',
-        }}
-      /> */}
     </>
   ) : (
     <>
@@ -64,8 +48,16 @@ const useAuth = (isAuth) =>
     </>
   );
 
-export default Router = ({ isAuth }) => (
-  <MainStack.Navigator initialRouteName="Login">
-    {useAuth(isAuth)}
-  </MainStack.Navigator>
-);
+export default Router = () => {
+  const { userId } = useSelector((state) => state.auth);
+
+  //Checking if a user is signed in by the presence of userId in the redux state.
+
+  const isAuth = !!userId;
+
+  return (
+    <MainStack.Navigator initialRouteName="Login">
+      {useAuth(isAuth)}
+    </MainStack.Navigator>
+  );
+};

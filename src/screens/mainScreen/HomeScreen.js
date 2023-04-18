@@ -85,12 +85,10 @@ export default HomeScreen = () => {
               // onPress={() => context.setIsAuth(false)}
             />
           ),
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
         })}
-        tabBarOptions={{
-          showLabel: false,
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-        }}
       >
         <Tabs.Screen
           name={POSTS_ROUTE}
