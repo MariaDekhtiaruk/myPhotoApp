@@ -36,10 +36,9 @@ export const authSignUpUser =
 export const authSignInUser =
   ({ email, password }) =>
   async (dispatch, getState) => {
-    console.log('user=======', email, password);
+    // Show loading
+    dispatch(authSlice.actions.setLoading(true));
     try {
-      console.log('email=', email, 'password=', password);
-
       const user = await signInWithEmailAndPassword(
         auth,
         email,
@@ -50,6 +49,8 @@ export const authSignInUser =
       console.log('error', error);
       console.log('error.message', error.message);
     }
+    // Hide loading
+    dispatch(authSlice.actions.setLoading(false));
   };
 
 export const authSignOutUser = () => async (dispatch, getState) => {

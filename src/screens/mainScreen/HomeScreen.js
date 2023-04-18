@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+// import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Button } from 'react-native';
@@ -6,7 +6,7 @@ import ProfileScreen from './ProfileScreen';
 import PostsScreen from './PostsScreen';
 import CreatePostsScreen from './CreatePostsScreen';
 import { useNavigation } from '@react-navigation/native';
-import Context from '../../../context';
+// import Context from '../../../context';
 import LogoutSvg from '../../../Img/LogOutSvg';
 
 const Tabs = createBottomTabNavigator();
@@ -65,7 +65,7 @@ const tabOptionsButtonsMap = {
 
 export default HomeScreen = () => {
   const navigation = useNavigation();
-  const context = useContext(Context);
+  // const context = useContext(Context);
 
   return (
     <>

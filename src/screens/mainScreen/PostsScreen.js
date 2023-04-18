@@ -11,7 +11,7 @@ const NestedScreen = createStackNavigator();
 
 const PostsScreen = () => {
   //Add signOut Redux action
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
 
   return (
     <NestedScreen.Navigator>
