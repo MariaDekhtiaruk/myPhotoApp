@@ -9,11 +9,16 @@ import {
 } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import imgAvatar from '../../../Img/Avatar.jpg';
+import { useSelector } from 'react-redux';
 // import imgForest from '../../Img/Forest.jpg';
 // import Wrapper from '../../components/Wrapper';
 
 export default DefaultScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
+  const { login, email } = useSelector((state) => {
+    console.log('state ++++++++', state);
+    return state.auth;
+  });
 
   useEffect(() => {
     console.log(route.params);
@@ -34,8 +39,8 @@ export default DefaultScreen = ({ route, navigation }) => {
           style={styles.imgAvatar}
         />
         <View style={{ marginLeft: 10 }}>
-          <Text>Natalia Romanova</Text>
-          <Text>email@example.com</Text>
+          <Text>{login}</Text>
+          <Text>{email}</Text>
         </View>
       </View>
       <FlatList

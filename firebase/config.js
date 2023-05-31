@@ -25,4 +25,5 @@ const auth = initializeAuth(app, {
 
   //Persistence configuration and export the ready auth object (no need to use getAuth(app) further)
 });
+
 export default auth;

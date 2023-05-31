@@ -21,10 +21,14 @@ export const authSignUpUser =
         displayName: login,
       });
       const updateUserSuccess = await user.auth.currentUser;
+
+      console.log('updateUserSuccess========', updateUserSuccess);
+
       dispatch(
         authSlice.actions.updateUserProfile({
           userId: updateUserSuccess.uid,
           login: updateUserSuccess.displayName,
+          email: updateUserSuccess.email,
         })
       );
       console.log('user', user);
@@ -78,6 +82,7 @@ export const authStateChanged = () => async (dispatch, getState) => {
       const userUpdateProfile = {
         login: user.displayName,
         userId: user.uid,
+        email: user.email,
       };
 
       dispatch(

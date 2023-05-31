@@ -13,6 +13,7 @@ import imgBg from '../../../Img/PhotoBG.jpg';
 import DeleteSvg from '../../../Img/deleteSvg';
 import LogoutSvg from '../../../Img/LogOutSvg';
 import Context from '../../../context';
+import { useSelector } from 'react-redux';
 // const Tabs = createBottomTabNavigator();
 
 // const PROFILE_ROUTE = 'Profile';
@@ -21,6 +22,9 @@ import Context from '../../../context';
 
 export default ProfileScreen = () => {
   const context = useContext(Context);
+  const { login, email } = useSelector((state) => {
+    return state.auth;
+  });
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -41,7 +45,7 @@ export default ProfileScreen = () => {
           />
           <DeleteSvg style={styles.deleteSvg} />
         </View>
-        <Text style={styles.nameText}>Natalia Romanova</Text>
+        <Text style={styles.nameText}>{login}</Text>
         <Image
           source={imgForest}
           resizeMode="cover"
