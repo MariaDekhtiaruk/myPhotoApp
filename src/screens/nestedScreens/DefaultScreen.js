@@ -12,20 +12,37 @@ import imgAvatar from '../../../Img/Avatar.jpg';
 import { useSelector } from 'react-redux';
 // import imgForest from '../../Img/Forest.jpg';
 // import Wrapper from '../../components/Wrapper';
+import { ref, onValue, off } from 'firebase/database';
+import { db } from '../../../firebase/config';
 
 export default DefaultScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
   const { login, email } = useSelector((state) => {
-    console.log('state ++++++++', state);
     return state.auth;
   });
 
   useEffect(() => {
-    console.log(route.params);
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-    }
-  }, [route.params]);
+    const postsRef = ref(db, `posts`);
+
+    const onValueChange = (snapshot) => {
+      const postsObject = snapshot.val();
+
+      const postsIds = Object.keys(postsObject);
+
+      const posts = postsIds.map((key) => postsObject[key]);
+      console.log(posts);
+
+      setPosts(posts);
+      console.log('Posts db data+++++======= ', snapshot.val());
+    };
+
+    onValue(postsRef, onValueChange, (error) => {
+      console.error('Error reading data:', error);
+    });
+
+    // Stop listening for updates when no longer required
+    return () => off(postsRef, 'value', onValueChange);
+  }, []);
 
   const sendComments = () => {
     navigation.navigate('CommentsScreen', {});
