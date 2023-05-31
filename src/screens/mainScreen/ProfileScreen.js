@@ -7,7 +7,6 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import imgForest from '../../../Img/Forest.jpg';
 import imgAvatar from '../../../Img/Avatar.jpg';
 import imgBg from '../../../Img/PhotoBG.jpg';
 import DeleteSvg from '../../../Img/deleteSvg';
@@ -19,12 +18,17 @@ import { useSelector } from 'react-redux';
 // const PROFILE_ROUTE = 'Profile';
 // const POSTS_ROUTE = 'Posts';
 // const CREATEPOSTSCREEN_ROUTE = 'CreatePostsScreen';
+import Posts from '../../../components/Posts';
 
-export default ProfileScreen = () => {
-  const context = useContext(Context);
-  const { login, email } = useSelector((state) => {
+export default ProfileScreen = ({ navigation }) => {
+  const { login } = useSelector((state) => {
     return state.auth;
   });
+
+  const sendComments = () => {
+    navigation.navigate('CommentsScreen', {});
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -46,11 +50,7 @@ export default ProfileScreen = () => {
           <DeleteSvg style={styles.deleteSvg} />
         </View>
         <Text style={styles.nameText}>{login}</Text>
-        <Image
-          source={imgForest}
-          resizeMode="cover"
-          style={styles.imagePost}
-        />
+        <Posts sendComments={sendComments} />
       </View>
     </View>
   );
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
   screenWrap: {
     position: 'absolute',
     width: '100%',
+    height: '80%',
     bottom: 0,
     paddingBottom: 16,
     borderRadius: 20,
