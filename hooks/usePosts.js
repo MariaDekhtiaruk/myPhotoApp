@@ -13,7 +13,10 @@ const usePosts = () => {
 
       const postsIds = Object.keys(postsObject);
 
-      const posts = postsIds.map((key) => postsObject[key]);
+      const posts = postsIds.map((postId) => ({
+        postId,
+        ...postsObject[postId],
+      }));
       console.log(posts);
 
       setPosts(posts);

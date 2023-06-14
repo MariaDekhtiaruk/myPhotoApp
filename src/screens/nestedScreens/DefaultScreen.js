@@ -10,9 +10,10 @@ export default DefaultScreen = ({ route, navigation }) => {
     return state.auth;
   });
 
-  const sendComments = () => {
-    navigation.navigate('CommentsScreen', {});
+  const navigateToCommentsScreen = (post) => {
+    navigation.navigate('CommentsScreen', { post });
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.imgWrap}>
@@ -26,7 +27,7 @@ export default DefaultScreen = ({ route, navigation }) => {
           <Text>{email}</Text>
         </View>
       </View>
-      <Posts sendComments={sendComments} />
+      <Posts navigateToCommentsScreen={navigateToCommentsScreen} />
     </View>
   );
 };

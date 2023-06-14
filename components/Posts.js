@@ -9,8 +9,9 @@ import {
 import { EvilIcons } from '@expo/vector-icons';
 import usePosts from '../hooks/usePosts';
 
-const Posts = ({ sendComments }) => {
+const Posts = ({ navigateToCommentsScreen }) => {
   const posts = usePosts();
+
   return (
     <FlatList
       data={posts}
@@ -38,7 +39,7 @@ const Posts = ({ sendComments }) => {
             }}
           >
             <TouchableOpacity
-              onPress={sendComments}
+              onPress={() => navigateToCommentsScreen(item)}
               style={styles.inputComment}
             >
               <EvilIcons name="comment" size={24} color="#BDBDBD" />
