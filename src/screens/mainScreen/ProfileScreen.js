@@ -13,11 +13,7 @@ import DeleteSvg from '../../../Img/deleteSvg';
 import LogoutSvg from '../../../Img/LogOutSvg';
 import Context from '../../../context';
 import { useSelector } from 'react-redux';
-// const Tabs = createBottomTabNavigator();
 
-// const PROFILE_ROUTE = 'Profile';
-// const POSTS_ROUTE = 'Posts';
-// const CREATEPOSTSCREEN_ROUTE = 'CreatePostsScreen';
 import Posts from '../../../components/Posts';
 
 export default ProfileScreen = ({ navigation }) => {
@@ -25,10 +21,9 @@ export default ProfileScreen = ({ navigation }) => {
     return state.auth;
   });
 
-  const sendComments = () => {
-    navigation.navigate('CommentsScreen', {});
+  const navigateToCommentsScreen = (post) => {
+    navigation.navigate('CommentsScreen', { post });
   };
-
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -50,7 +45,7 @@ export default ProfileScreen = ({ navigation }) => {
           <DeleteSvg style={styles.deleteSvg} />
         </View>
         <Text style={styles.nameText}>{login}</Text>
-        <Posts sendComments={sendComments} />
+        <Posts navigateToCommentsScreen={navigateToCommentsScreen} />
       </View>
     </View>
   );

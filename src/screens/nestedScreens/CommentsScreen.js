@@ -41,7 +41,7 @@ export default CommentsScreen = ({ route }) => {
     };
     await addCommentToDatabase(commentObj);
 
-    // navigation.navigate('DefaultScreen');
+    navigation.navigate('DefaultScreen');
   };
 
   const addCommentToDatabase = async (commentObj) => {
@@ -76,11 +76,14 @@ export default CommentsScreen = ({ route }) => {
         </View>
 
         {comments.map((comment) => (
-          <View style={styles.listItem}>
+          <View
+            style={
+              comment.isMine ? styles.commentMine : styles.comment
+            }
+          >
+            <Text style={styles.dataText}>{comment.author}</Text>
             <Text style={styles.commentText}>{comment.text}</Text>
             <Text style={styles.dataText}>{comment.commentId}</Text>
-
-            <Text style={styles.dataText}>{comment.author}</Text>
           </View>
         ))}
         <View style={styles.inputWrapper}>
@@ -158,7 +161,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
   },
-  listItem: { width: windowWidth - 30 },
+  comment: { width: windowWidth - 30 },
+  commentMine: {
+    width: windowWidth - 30,
+    borderColor: 'red',
+    borderWidth: 1,
+    borderRadius: 8,
+  },
 
   imagePost: {
     marginTop: 32,
