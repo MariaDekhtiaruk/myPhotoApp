@@ -43,7 +43,7 @@ const Posts = ({ navigateToCommentsScreen }) => {
               style={styles.inputComment}
             >
               <EvilIcons name="comment" size={24} color="#BDBDBD" />
-              <Text style={styles.snap}>0</Text>
+              <Text style={styles.snap}>{item.commentsCount}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               // onPress={sendLocation}
