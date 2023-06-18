@@ -11,7 +11,7 @@ export default DefaultScreen = ({ route, navigation }) => {
   });
 
   const navigateToCommentsScreen = (post) => {
-    navigation.navigate('CommentsScreen', { post });
+    navigation.navigate('Comments', { post });
   };
 
   return (

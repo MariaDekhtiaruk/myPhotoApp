@@ -88,7 +88,7 @@ export default CreatePostScreen = ({ navigation }) => {
     navigation.navigate('MapScreen', { location });
   };
   const sendComments = () => {
-    navigation.navigate('CommentsScreen', {});
+    navigation.navigate('Comments', {});
   };
 
   const handleBlur = () => {

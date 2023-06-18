@@ -22,7 +22,7 @@ export default ProfileScreen = ({ navigation }) => {
   });
 
   const navigateToCommentsScreen = (post) => {
-    navigation.navigate('CommentsScreen', { post });
+    navigation.navigate('Comments', { post });
   };
   return (
     <View style={styles.container}>

@@ -29,7 +29,7 @@ const PostsScreen = () => {
         }}
       />
       <NestedScreen.Screen
-        name="CommentsScreen"
+        name="Comments"
         component={CommentsScreen}
       />
       {/* <NestedScreen.Screen name="MapScreen" component={MapScreen} /> */}

@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import imgAvatar from '../../../Img/Avatar.jpg';
+import { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import useComments from '../../../hooks/useComments';
@@ -16,12 +16,21 @@ import { ref, set } from 'firebase/database';
 import { useSelector } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
-
+const SpanText = ({ children, style }) => {
+  return (
+    <View style={styles.textWrapper}>
+      <Text style={style}>{children}</Text>
+      <View style={styles.borderRight} />
+    </View>
+  );
+};
 export default CommentsScreen = ({ route }) => {
   const post = route.params.post;
   const { userId, login } = useSelector((state) => {
     return state.auth;
   });
+
+  const commentsWrapperRef = useRef(null);
 
   const { postId } = post;
   const { getPostComments } = useComments();
@@ -40,8 +49,7 @@ export default CommentsScreen = ({ route }) => {
       author: login,
     };
     await addCommentToDatabase(commentObj);
-
-    navigation.navigate('DefaultScreen');
+    setComment('');
   };
 
   const addCommentToDatabase = async (commentObj) => {
@@ -57,6 +65,14 @@ export default CommentsScreen = ({ route }) => {
   };
 
   console.log(comment);
+
+  useEffect(() => {
+    if (commentsWrapperRef.current) {
+      setTimeout(() => {
+        commentsWrapperRef.current.scrollToEnd({ animated: true });
+      }, 100);
+    }
+  }, [comments.length]);
 
   return (
     <View style={styles.container}>
@@ -75,21 +91,39 @@ export default CommentsScreen = ({ route }) => {
           />
         </View>
 
-        {comments.map((comment) => (
-          <View
-            style={
-              comment.isMine ? styles.commentMine : styles.comment
-            }
-          >
-            <Text style={styles.dataText}>{comment.author}</Text>
-            <Text style={styles.commentText}>{comment.text}</Text>
-            <Text style={styles.dataText}>{comment.commentId}</Text>
-          </View>
-        ))}
+        <ScrollView
+          style={styles.commentsWrapper}
+          ref={commentsWrapperRef}
+        >
+          {comments.map((comment) => (
+            <View
+              style={
+                comment.isMine ? styles.commentMine : styles.comment
+              }
+            >
+              <Text style={styles.authorText}>{comment.author}</Text>
+              <Text style={styles.commentText}>{comment.text}</Text>
+              <Text style={styles.dateText}>
+                {new Date(comment.date).toLocaleDateString()}
+                <SpanText
+                // style={{
+                //   height: '100%',
+                //   borderRightWidth: 1,
+                //   borderColor: 'black',
+                // }}
+                ></SpanText>
+                {new Date(comment.date).toLocaleTimeString()}
+              </Text>
+            </View>
+          ))}
+        </ScrollView>
         <View style={styles.inputWrapper}>
           <TextInput
-            style={styles.input}
+            style={styles.inputBtn}
             onChangeText={setComment}
+            multiline
+            value={comment}
+            numberOfLines={4}
           ></TextInput>
           <TouchableOpacity
             onPress={sendComment}
@@ -122,7 +156,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
-  dataText: {
+  imagePost: {
+    marginTop: 32,
+    borderRadius: 20,
+    width: 343,
+    height: 240,
+    borderColor: 'green',
+    backgroundColor: 'green',
+    marginBottom: 30,
+  },
+
+  commentsWrapper: {
+    height: 250,
+    flexGrow: 1,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+  },
+  authorText: {
     marginLeft: 16,
     marginRight: 16,
     marginBottom: 5,
@@ -130,22 +180,42 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 18,
+    textAlign: 'left',
+    margin: 0,
+    padding: 0,
   },
-
-  commentText: {
+  dateText: {
     marginLeft: 16,
     marginRight: 16,
     marginBottom: 5,
-    color: 'red',
+    color: '#BDBDBD',
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 18,
+    textAlign: 'right',
+    margin: 0,
+    padding: 0,
+  },
+  textWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    margin: 0,
+    padding: 0,
+  },
+  borderRight: {
+    height: '100%',
+    borderRightWidth: 1,
+    borderColor: 'grey',
+    margin: 0,
+    padding: 0,
   },
   inputWrapper: {
     width: '100%',
     position: 'relative',
   },
-  input: {
+  inputBtn: {
     marginLeft: 16,
     marginRight: 16,
     marginBottom: 5,
@@ -156,27 +226,34 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 18,
-    borderColor: 'red',
+    borderColor: 'green',
     borderWidth: 1,
     borderRadius: 8,
     padding: 10,
   },
-  comment: { width: windowWidth - 30 },
-  commentMine: {
-    width: windowWidth - 30,
-    borderColor: 'red',
+  comment: {
+    width: windowWidth - 90,
+    backgroundColor: 'rgba(0, 0, 0, 0.03)',
+    borderColor: 'rgba(0, 0, 0, 0.03)',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 6,
+    marginLeft: 16,
+    marginRight: 60,
+    flex: 1,
+    marginBottom: 16,
+  },
+  commentMine: {
+    width: windowWidth - 90,
+    backgroundColor: 'rgba(0, 0, 0, 0.03)',
+    borderColor: 'rgba(0, 0, 0, 0.03)',
+    borderWidth: 1,
+    borderRadius: 6,
+    marginLeft: 60,
+    marginRight: 16,
+    flex: 1,
+    marginBottom: 16,
   },
 
-  imagePost: {
-    marginTop: 32,
-    borderRadius: 20,
-    width: 343,
-    height: 240,
-    borderColor: 'red',
-    backgroundColor: 'red',
-  },
   sentBtn: {
     marginTop: 20,
     backgroundColor: 'red',
