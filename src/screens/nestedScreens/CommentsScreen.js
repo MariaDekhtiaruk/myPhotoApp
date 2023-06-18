@@ -69,25 +69,15 @@ export default CommentsScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          marginBottom: 10,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <View style={styles.imgWrap}>
-          <Image
-            source={{ uri: post.photo }}
-            resizeMode="cover"
-            style={styles.imagePost}
-          />
-        </View>
-
-        <ScrollView
-          style={styles.commentsWrapper}
-          ref={commentsWrapperRef}
-        >
+      <View style={styles.imgWrapper}>
+        <Image
+          source={{ uri: post.photo }}
+          resizeMode="cover"
+          style={styles.imagePost}
+        />
+      </View>
+      <View style={styles.commentsWrapper}>
+        <ScrollView ref={commentsWrapperRef}>
           {comments.map((comment) => (
             <View
               style={
@@ -123,25 +113,21 @@ export default CommentsScreen = ({ route }) => {
             </View>
           ))}
         </ScrollView>
-        <View style={styles.inputWrapper}>
-          <TextInput
-            style={styles.inputBtn}
-            onChangeText={setComment}
-            multiline
-            value={comment}
-            numberOfLines={4}
-          ></TextInput>
-          <TouchableOpacity
-            onPress={sendComment}
-            style={styles.sentBtn}
-          >
-            <MaterialIcons
-              name="add-a-photo"
-              color="white"
-              size={24}
-            />
-          </TouchableOpacity>
-        </View>
+      </View>
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.inputBtn}
+          onChangeText={setComment}
+          multiline
+          value={comment}
+          numberOfLines={4}
+        ></TextInput>
+        <TouchableOpacity
+          onPress={sendComment}
+          style={styles.sentBtn}
+        >
+          <MaterialIcons name="add-a-photo" color="white" size={24} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -150,7 +136,10 @@ export default CommentsScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
+    flexDirection: 'column',
     backgroundColor: 'white',
+    width: '100%',
   },
   photoContainer: {
     width: '100%',
@@ -171,12 +160,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     marginBottom: 30,
   },
-
+  imgWrapper: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   commentsWrapper: {
-    height: 250,
-    flexGrow: 1,
+    flex: 0.4,
+    // height: 200,
+    // flexGrow: 1,
     paddingVertical: 16,
     paddingHorizontal: 16,
+    // backgroundColor: 'blue',
+  },
+  inputWrapper: {
+    flex: 0.1,
+    paddingTop: 10,
+    // width: '70%',
+    // position: 'relative',
+    // backgroundColor: 'red',
   },
   authorText: {
     marginTop: 16,
@@ -189,7 +191,6 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'left',
   },
-
   commentText: {
     marginLeft: 16,
     marginRight: 5,
@@ -228,11 +229,6 @@ const styles = StyleSheet.create({
     lineHeight: 12,
     textAlign: 'right',
   },
-
-  inputWrapper: {
-    width: '100%',
-    position: 'relative',
-  },
   inputBtn: {
     marginLeft: 16,
     marginRight: 16,
@@ -244,10 +240,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 18,
-    borderColor: 'green',
+    backgroundColor: '#F6F6F6',
     borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
+    borderColor: '#E8E8E8',
+    borderStyle: 'solid',
+    borderRadius: 100,
   },
   comment: {
     width: windowWidth - 90,
