@@ -16,14 +16,7 @@ import { ref, set } from 'firebase/database';
 import { useSelector } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
-const SpanText = ({ children, style }) => {
-  return (
-    <View style={styles.textWrapper}>
-      <Text style={style}>{children}</Text>
-      <View style={styles.borderRight} />
-    </View>
-  );
-};
+
 export default CommentsScreen = ({ route }) => {
   const post = route.params.post;
   const { userId, login } = useSelector((state) => {
@@ -103,17 +96,30 @@ export default CommentsScreen = ({ route }) => {
             >
               <Text style={styles.authorText}>{comment.author}</Text>
               <Text style={styles.commentText}>{comment.text}</Text>
-              <Text style={styles.dateText}>
-                {new Date(comment.date).toLocaleDateString()}
-                <SpanText
-                // style={{
-                //   height: '100%',
-                //   borderRightWidth: 1,
-                //   borderColor: 'black',
-                // }}
-                ></SpanText>
-                {new Date(comment.date).toLocaleTimeString()}
-              </Text>
+              <View style={styles.timeWrapper}>
+                <View style={styles.border}>
+                  <Text style={styles.date}>
+                    {new Date(comment.date).toLocaleDateString(
+                      'en-GB',
+                      {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                      }
+                    )}
+                  </Text>
+                </View>
+                <Text style={styles.time}>
+                  {new Date(comment.date).toLocaleTimeString(
+                    'en-US',
+                    {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: false,
+                    }
+                  )}
+                </Text>
+              </View>
             </View>
           ))}
         </ScrollView>
@@ -173,44 +179,56 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   authorText: {
+    marginTop: 16,
     marginLeft: 16,
-    marginRight: 16,
+    marginRight: 5,
     marginBottom: 5,
-    color: '#BDBDBD',
+    color: '#FF6C00',
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 18,
     textAlign: 'left',
-    margin: 0,
-    padding: 0,
   },
-  dateText: {
+
+  commentText: {
     marginLeft: 16,
-    marginRight: 16,
+    marginRight: 5,
     marginBottom: 5,
+    color: '#212121',
+    fontFamily: 'Roboto-Regular',
+    fontSize: 13,
+    lineHeight: 18,
+    textAlign: 'left',
+  },
+  timeWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginBottom: 5,
+  },
+  date: {
     color: '#BDBDBD',
     fontFamily: 'Roboto-Regular',
-    fontSize: 16,
-    lineHeight: 18,
+    fontSize: 10,
+    lineHeight: 12,
     textAlign: 'right',
-    margin: 0,
-    padding: 0,
+    borderStyle: 'solid',
+    marginRight: 5,
   },
-  textWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    margin: 0,
-    padding: 0,
-  },
-  borderRight: {
+  border: {
     height: '100%',
     borderRightWidth: 1,
-    borderColor: 'grey',
-    margin: 0,
-    padding: 0,
+    borderColor: '#BDBDBD',
   },
+  time: {
+    marginLeft: 5,
+    marginRight: 5,
+    color: '#BDBDBD',
+    fontFamily: 'Roboto-Regular',
+    fontSize: 10,
+    lineHeight: 12,
+    textAlign: 'right',
+  },
+
   inputWrapper: {
     width: '100%',
     position: 'relative',
