@@ -80,6 +80,7 @@ export default CommentsScreen = ({ route }) => {
         <ScrollView ref={commentsWrapperRef}>
           {comments.map((comment) => (
             <View
+              key={comment.commentId}
               style={
                 comment.isMine ? styles.commentMine : styles.comment
               }
