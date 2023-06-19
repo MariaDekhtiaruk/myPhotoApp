@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+// import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Button } from 'react-native';
@@ -6,7 +6,7 @@ import ProfileScreen from './ProfileScreen';
 import PostsScreen from './PostsScreen';
 import CreatePostsScreen from './CreatePostsScreen';
 import { useNavigation } from '@react-navigation/native';
-import Context from '../../../context';
+// import Context from '../../../context';
 import LogoutSvg from '../../../Img/LogOutSvg';
 
 const Tabs = createBottomTabNavigator();
@@ -59,13 +59,13 @@ const tabOptionsButtonsMap = {
     focused: (size, color, disabled) =>
       getButton('trash', size, 'gray', '#F6F6F6', disabled),
     blured: (size, color, disabled) =>
-      getButton('add-outline', size, 'white', 'tomato', disabled),
+      getButton('add-outline', size, 'white', '#FF6C00', disabled),
   },
 };
 
 export default HomeScreen = () => {
   const navigation = useNavigation();
-  const context = useContext(Context);
+  // const context = useContext(Context);
 
   return (
     <>
@@ -82,15 +82,13 @@ export default HomeScreen = () => {
           headerRight: () => (
             <LogoutSvg
               style={styles.logoutSvg}
-              onPress={() => context.setIsAuth(false)}
+              // onPress={() => context.setIsAuth(false)}
             />
           ),
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: '#FF6C00',
+          tabBarInactiveTintColor: 'gray',
         })}
-        tabBarOptions={{
-          showLabel: false,
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-        }}
       >
         <Tabs.Screen
           name={POSTS_ROUTE}
@@ -142,7 +140,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'tomato',
+    backgroundColor: '#FF6C00',
     borderWidth: 0,
     borderRadius: 100,
     padding: 5,

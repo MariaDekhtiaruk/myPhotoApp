@@ -17,7 +17,9 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { ref, set } from 'firebase/database';
 import Context from '../../../context';
+import { db } from '../../../firebase/config';
 
 async function getLocationPermission(callBack) {
   const { status } =
@@ -63,15 +65,30 @@ export default CreatePostScreen = ({ navigation }) => {
     console.log('cam', photo.uri);
   };
 
+  const addPostToDatabase = (post) => {
+    const postsRef = ref(db, `posts/${new Date().getTime()}`);
+
+    set(postsRef, post)
+      .then(() => {
+        console.log('Post added successfully');
+      })
+      .catch((error) => {
+        console.error('Error adding post:', error);
+      });
+  };
+
   const sendPhoto = () => {
-    navigation.navigate('DefaultScreen', { photo, location, name });
+    const post = { photo, location, name };
+    addPostToDatabase(post);
+
+    navigation.navigate('DefaultScreen');
   };
 
   const sendLocation = () => {
     navigation.navigate('MapScreen', { location });
   };
   const sendComments = () => {
-    navigation.navigate('CommentsScreen', {});
+    navigation.navigate('Comments', {});
   };
 
   const handleBlur = () => {

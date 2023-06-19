@@ -10,6 +10,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import imgBg from '../Img/PhotoBG.jpg';
 import AddSvg from '../Img/AddSvg';
@@ -21,6 +22,7 @@ export default Wrapper = ({
   title,
   onAvatarSetHandler,
   isShowKeyboard,
+  isLoading,
 }) => {
   const [dimensions, setDimensions] = useState(
     Dimensions.get('window').width - 8 * 2
@@ -39,60 +41,65 @@ export default Wrapper = ({
 
   useEffect(() => {
     if (!isShowKeyboard) {
-      keybordHide();
+      keyboardHide();
     }
   }, [isShowKeyboard]);
 
-  const keybordHide = () => {
+  const keyboardHide = () => {
     Keyboard.dismiss();
   };
 
   return (
-    <TouchableWithoutFeedback onPress={keybordHide}>
-      <View style={styles.container}>
-        <ImageBackground
-          source={imgBg}
-          resizeMode="cover"
-          style={styles.imageBG}
-        />
+    //Show loading instead of page content while the app makes requests.
+    isLoading ? (
+      <ActivityIndicator size="large" style={{ height: '100%' }} />
+    ) : (
+      <TouchableWithoutFeedback onPress={keyboardHide}>
+        <View style={styles.container}>
+          <ImageBackground
+            source={imgBg}
+            resizeMode="cover"
+            style={styles.imageBG}
+          />
 
-        <View style={styles.screenWrap}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.container}
-          >
-            {!hideAvatar ? (
-              <View>
-                {imageAvatar ? (
-                  <Image
-                    source={imageAvatar}
-                    resizeMode="cover"
-                    style={styles.imageAvatar}
-                  />
-                ) : (
-                  <View style={styles.imageAvatarEmpty}></View>
-                )}
-                <AddSvg
-                  style={styles.AddSvg}
-                  onPress={onAvatarSetHandler}
-                />
-              </View>
-            ) : null}
-
-            <Text style={styles.title}>{title}</Text>
-            <View
-              style={{
-                ...styles.form,
-                marginBottom: isShowKeyboard ? 5 : 78,
-                width: dimensions,
-              }}
+          <View style={styles.screenWrap}>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              style={styles.container}
             >
-              {children}
-            </View>
-          </KeyboardAvoidingView>
+              {!hideAvatar ? (
+                <View>
+                  {imageAvatar ? (
+                    <Image
+                      source={imageAvatar}
+                      resizeMode="cover"
+                      style={styles.imageAvatar}
+                    />
+                  ) : (
+                    <View style={styles.imageAvatarEmpty}></View>
+                  )}
+                  <AddSvg
+                    style={styles.AddSvg}
+                    onPress={onAvatarSetHandler}
+                  />
+                </View>
+              ) : null}
+
+              <Text style={styles.title}>{title}</Text>
+              <View
+                style={{
+                  ...styles.form,
+                  marginBottom: isShowKeyboard ? 5 : 78,
+                  width: dimensions,
+                }}
+              >
+                {children}
+              </View>
+            </KeyboardAvoidingView>
+          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    )
   );
 };
 

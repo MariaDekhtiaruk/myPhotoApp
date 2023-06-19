@@ -1,15 +1,16 @@
-import { StyleSheet, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import useCachedResources from './hooks/useCachedResources';
-
+import { View } from 'react-native';
+// Added to avoid "Unable to resolve "react-native-gesture-handler" error
+import 'react-native-gesture-handler';
+import { Provider } from 'react-redux';
 import { useState } from 'react';
+
+import useCachedResources from './hooks/useCachedResources';
 import Context from './context';
-import Router from './components/Router';
+import { store } from './redux/store';
+import Main from './components/Main';
 
 const App = () => {
-  console.log('Maria');
   const isLoadingComplete = useCachedResources();
-  const [isAuth, setIsAuth] = useState(false);
   const [context, setContext] = useState({});
 
   if (!isLoadingComplete) {
@@ -17,26 +18,14 @@ const App = () => {
   }
 
   return (
-    <Context.Provider value={{ setIsAuth, context, setContext }}>
-      <View style={{ height: '100%' }}>
-        <NavigationContainer>
-          <Router isAuth={isAuth} />
-        </NavigationContainer>
-      </View>
-    </Context.Provider>
+    <Provider store={store}>
+      <Context.Provider value={{ context, setContext }}>
+        <View style={{ height: '100%' }}>
+          <Main />
+        </View>
+      </Context.Provider>
+    </Provider>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mariaText: {
-    color: 'pink',
-  },
-});

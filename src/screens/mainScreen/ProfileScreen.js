@@ -1,29 +1,29 @@
 import { useContext, useState } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import PostsScreen from './PostsScreen';
+
 import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   Image,
   ImageBackground,
 } from 'react-native';
-import imgForest from '../../../Img/Forest.jpg';
 import imgAvatar from '../../../Img/Avatar.jpg';
 import imgBg from '../../../Img/PhotoBG.jpg';
 import DeleteSvg from '../../../Img/deleteSvg';
 import LogoutSvg from '../../../Img/LogOutSvg';
 import Context from '../../../context';
-// const Tabs = createBottomTabNavigator();
+import { useSelector } from 'react-redux';
 
-// const PROFILE_ROUTE = 'Profile';
-// const POSTS_ROUTE = 'Posts';
-// const CREATEPOSTSCREEN_ROUTE = 'CreatePostsScreen';
+import Posts from '../../../components/Posts';
 
-export default ProfileScreen = () => {
-  const context = useContext(Context);
+export default ProfileScreen = ({ navigation }) => {
+  const { login } = useSelector((state) => {
+    return state.auth;
+  });
+
+  const navigateToCommentsScreen = (post) => {
+    navigation.navigate('Comments', { post });
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -34,7 +34,7 @@ export default ProfileScreen = () => {
       <View style={styles.screenWrap}>
         <LogoutSvg
           style={styles.logoutSvg}
-          onPress={() => context.setIsAuth(false)}
+          // onPress={() => context.setIsAuth(false)}
         />
         <View style={styles.imgWrap}>
           <Image
@@ -44,68 +44,12 @@ export default ProfileScreen = () => {
           />
           <DeleteSvg style={styles.deleteSvg} />
         </View>
-        <Text style={styles.nameText}>Natalia Romanova</Text>
-        <Image
-          source={imgForest}
-          resizeMode="cover"
-          style={styles.imagePost}
-        />
+        <Text style={styles.nameText}>{login}</Text>
+        <Posts navigateToCommentsScreen={navigateToCommentsScreen} />
       </View>
     </View>
   );
 };
-
-/* <Tabs.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            console.log(route);
-
-            if (route.name === { CREATEPOSTSCREEN_ROUTE }) {
-              iconName = focused ? 'add' : 'add-outline';
-            } else if (route.name === { POSTS_ROUTE }) {
-              iconName = focused ? 'images' : 'images-outline';
-            }
-            return (
-              <Ionicons name={iconName} size={size} color={color} />
-            );
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-        }}
-      >
-        <Tabs.Screen name={POSTS_ROUTE} component={PostsScreen} />
-        <Tabs.Screen
-          name={CREATEPOSTSCREEN_ROUTE}
-          component={CreatePostsScreen}
-        />
-
-        <Tabs.Screen
-          name={PROFILE_ROUTE}
-          component={() => (
-            <View
-              style={{ ...styles.btn, backgroundColor: 'tomato' }}
-            >
-              <Text>Profile</Text>
-            </View>
-          )}
-          options={{
-            tabBarIcon: ({ name, color, size }) => (
-              <Ionicons name="person" color={'white'} size={size} />
-            ),
-          }}
-          // listeners={{
-          //   tabPress: (e) => {
-          //     // Prevent default action
-          //     e.preventDefault();
-          //     alert('Home');
-          //   },
-          // }}
-        />
-      </Tabs.Navigator> */
 
 const styles = StyleSheet.create({
   container: {
@@ -142,6 +86,7 @@ const styles = StyleSheet.create({
   screenWrap: {
     position: 'absolute',
     width: '100%',
+    height: '80%',
     bottom: 0,
     paddingBottom: 16,
     borderRadius: 20,

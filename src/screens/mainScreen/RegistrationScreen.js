@@ -7,8 +7,11 @@ import {
   TouchableOpacity,
   Keyboard,
 } from 'react-native';
-import Context from '../../../context';
 
+import { useDispatch } from 'react-redux';
+import { authSignUpUser } from '../../../redux/auth/authOperations';
+
+import Context from '../../../context';
 import imgAvatar from '../../../Img/Avatar.jpg';
 import { useTogglePasswordVisibility } from '../../../hooks/useTogglePasswordVisibility';
 import Wrapper from '../../../components/Wrapper';
@@ -23,25 +26,23 @@ export default RegistrationScreen = ({
   navigation,
   onLoginSuccessful,
 }) => {
-  // const [login, setLogin] = React.useState('');
-  // const [mail, setMail] = React.useState('');
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const context = useContext(Context);
-
-  console.log(context);
-
-  const [passWord, setPassWord] = useState('');
   const [avatar, setAvatar] = useState('');
   const [state, setState] = useState(initialState);
+
+  const dispatch = useDispatch();
 
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
-  const keybordHide = () => {
+  const handleSubmit = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(initialState);
+    dispatch(authSignUpUser(state));
   };
+
   return (
     <Wrapper
       imageAvatar={avatar}
@@ -100,9 +101,9 @@ export default RegistrationScreen = ({
       <TouchableOpacity
         activeOpacity={0.8}
         style={styles.btn}
-        // onPress={keybordHide}
         onPress={() => {
-          context.setIsAuth(true);
+          handleSubmit();
+          //context.setIsAuth(true);
         }}
       >
         <Text style={styles.btnText}>Registered</Text>
