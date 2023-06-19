@@ -9,7 +9,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import useComments from '../../../hooks/useComments';
 import { db } from '../../../firebase/config';
 import { ref, set } from 'firebase/database';
@@ -121,12 +121,13 @@ export default CommentsScreen = ({ route }) => {
           multiline
           value={comment}
           numberOfLines={4}
+          placeholder="For comments..."
         ></TextInput>
         <TouchableOpacity
           onPress={sendComment}
           style={styles.sentBtn}
         >
-          <MaterialIcons name="add-a-photo" color="white" size={24} />
+          <AntDesign name="arrowup" size={24} color="white" />
         </TouchableOpacity>
       </View>
     </View>
@@ -167,18 +168,15 @@ const styles = StyleSheet.create({
   },
   commentsWrapper: {
     flex: 0.4,
-    // height: 200,
-    // flexGrow: 1,
     paddingVertical: 16,
     paddingHorizontal: 16,
-    // backgroundColor: 'blue',
   },
   inputWrapper: {
     flex: 0.1,
     paddingTop: 10,
-    // width: '70%',
-    // position: 'relative',
-    // backgroundColor: 'red',
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   authorText: {
     marginTop: 16,
@@ -231,8 +229,10 @@ const styles = StyleSheet.create({
   },
   inputBtn: {
     marginLeft: 16,
-    marginRight: 16,
+    marginRight: 11,
     marginBottom: 5,
+    paddingLeft: 16,
+    paddingTop: 16,
     height: 50,
     width: '90%',
     textAlign: 'left',
@@ -271,8 +271,9 @@ const styles = StyleSheet.create({
 
   sentBtn: {
     marginTop: 20,
-    backgroundColor: 'red',
-    width: 30,
+    backgroundColor: '#FF6C00',
+    width: 34,
+    height: 34,
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',

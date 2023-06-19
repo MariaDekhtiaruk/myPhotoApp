@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 343,
     height: 240,
-    borderColor: 'red',
-    backgroundColor: 'red',
+    borderColor: '#FF6C00',
+    backgroundColor: '#FF6C00',
   },
   inputMap: {
     marginLeft: 16,

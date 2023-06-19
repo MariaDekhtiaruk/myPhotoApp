@@ -59,7 +59,7 @@ const tabOptionsButtonsMap = {
     focused: (size, color, disabled) =>
       getButton('trash', size, 'gray', '#F6F6F6', disabled),
     blured: (size, color, disabled) =>
-      getButton('add-outline', size, 'white', 'tomato', disabled),
+      getButton('add-outline', size, 'white', '#FF6C00', disabled),
   },
 };
 
@@ -86,7 +86,7 @@ export default HomeScreen = () => {
             />
           ),
           tabBarShowLabel: false,
-          tabBarActiveTintColor: 'tomato',
+          tabBarActiveTintColor: '#FF6C00',
           tabBarInactiveTintColor: 'gray',
         })}
       >
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'tomato',
+    backgroundColor: '#FF6C00',
     borderWidth: 0,
     borderRadius: 100,
     padding: 5,
