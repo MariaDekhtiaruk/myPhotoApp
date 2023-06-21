@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -32,10 +30,6 @@
         "projectId": "04f892e2-44d0-4763-9649-e94f1e650a8b"
       }
     },
-    "owner": "mariadekh",
-    "permissions": [
-      "ACCESS_COARSE_LOCATION",
-      "ACCESS_FINE_LOCATION"
-    ]
+    "owner": "mariadekh"
   }
 }
